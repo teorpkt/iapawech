@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iapawech</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(200, 200, 255, 0.8));
+            backdrop-filter: blur(10px);
+        }
+
+        #container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #modalImage {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        #credit {
+            margin-top: 20px;
+            font-size: 12px; /* Petite écriture */
+            color: #888; /* Couleur discrète */
+        }
+
+        #credit a {
+            color: #007BFF; /* Couleur du lien */
+            text-decoration: none; /* Pas de soulignement */
+        }
+
+        #credit a:hover {
+            text-decoration: underline; /* Soulignement au survol */
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <h1>iapawech</h1>
+    <input type="text" id="textInput" placeholder="Écrivez votre description d'image ici..." aria-label="Image à générer">
+    <button id="goButton">Générer</button>
+    <div id="result"></div>
+    <div id="credit">
+        un projet de <a href="https://www.instagram.com/teorpkt" target="_blank">@teorpkt</a>
+    </div>
+</div>
+
+<div id="modal">
+    <div id="modalContent">
+        <img id="modalImage" alt="Image générée">
+    </div>
+</div>
+
+<script>
+    document.getElementById('goButton').addEventListener('click', async () => {
+        const prompt = document.getElementById('textInput').value;
+        if (prompt.trim() === "") {
+            alert("Veuillez entrer une suggestion d'image.");
+            return;
+        }
+
+        const timestamp = Date.now();
+        const randomValue = Math.floor(Math.random() * 1000000);
+        const immenseSeed = (timestamp * 1000000000) + randomValue;
+        
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${immenseSeed}&width=400&height=400&nologo=true&enhance=false`;
+
+        // Créer une nouvelle image
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = image Url;
+
+        // Attendre que l'image soit complètement chargée avant d'afficher la modale
+        modalImage.onload = function() {
+            const modal = document.getElementById('modal');
+            modal.style.display = "flex"; // Afficher le modal
+        };
+
+        // Fermer le modal si l'utilisateur clique en dehors de l'image
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
