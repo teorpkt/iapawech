@@ -64,6 +64,11 @@
             background-color: #0056b3;
         }
 
+        button:disabled {
+            background-color: #cccccc; /* Couleur grise pour le bouton désactivé */
+            cursor: not-allowed; /* Changer le curseur pour indiquer que c'est désactivé */
+        }
+
         #modal {
             position: fixed;
             top: 0;
@@ -78,8 +83,18 @@
             z-index: 1000;
         }
 
+        #modalContent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 50%; /* 50% de la largeur de la page */
+            max-height: 80%; /* Pour éviter que l'image dépasse la hauteur de la page */
+            overflow: hidden; /* Masquer le débordement */
+        }
+
         #modalImage {
-            max-width: 100%;
+            width: 100%; /* Prendre toute la largeur du conteneur */
+            height: auto; /* Garder les proportions de l'image */
             border-radius: 10px;
         }
 
@@ -119,15 +134,19 @@
 
 <script>
     document.getElementById('goButton').addEventListener('click', async () => {
-        const prompt = document.getElementById('textInput').value;
+        const button = document.getElementById('goButton');
+        const prompt = document.getElementById('textInput').value; // Correction ici
         if (prompt.trim() === "") {
             alert("Veuillez entrer une suggestion d'image.");
             return;
         }
 
+        button.disabled = true; // Désactiver le bouton
+        button.textContent = " Chargement..."; // Changer le texte du bouton
+
         const randomValue = Math.floor(Math.random() * 100000000);
         
-        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${randomValue}&width=400&height=400&nologo=true&enhance=false`;
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${randomValue}&width=1080&height=1080&nologo=true&enhance=false`;
       
         // Créer une nouvelle image
         const modalImage = document.getElementById('modalImage');
@@ -137,6 +156,8 @@
         modalImage.onload = function() {
             const modal = document.getElementById('modal');
             modal.style.display = "flex"; // Afficher le modal
+            button.disabled = false; // Réactiver le bouton
+            button.textContent = "Générer"; // Restaurer le texte du bouton
         };
 
         // Fermer le modal si l'utilisateur clique en dehors de l'image
