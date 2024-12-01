@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,16 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iapawech</title>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(200, 200, 255, 0.8));
-            backdrop-filter: blur(10px);
-        }
+       body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(68,145,227,1) 13%, rgba(78,154,236,1) 25%, rgba(114,174,240,1) 38%, rgba(120,184,255,1) 50%, rgba(109,175,246,1) 64%, rgba(93,171,255,1) 75%, rgba(49,148,255,1) 86%, rgba(0,123,255,1) 100%);
+    background-size: 600% 600%;
+    animation: gradientAnimation 30s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
         #container {
             background-color: rgba(255, 255, 255, 0.9);
@@ -54,6 +68,7 @@
             border: none;
             border-radius: 5px;
             background-color: #007BFF;
+            border: 1px solid #ccc;
             color: white;
             font-size: 16px;
             cursor: pointer;
@@ -143,9 +158,11 @@
         button.disabled = true; // Désactiver le bouton
         button.textContent = " Chargement..."; // Changer le texte du bouton
 
-        const randomValue = Math.floor(Math.random() * 100000000);
+        function generateRandomSeed() {
+    return Math.floor(Math.random() * 1e9);
+  }
         
-        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${randomValue}&width=1080&height=1080&nologo=true&enhance=false`;
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${generateRandomSeed()}&width=1080&height=1080&nologo=true&enhance=false`;
       
         // Créer une nouvelle image
         const modalImage = document.getElementById('modalImage');
