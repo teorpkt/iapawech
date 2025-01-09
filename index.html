@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iapawech</title>
+    <title>iapawech v2</title>
     <style>
        body {
     margin: 0;
@@ -12,21 +12,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(68,145,227,1) 13%, rgba(78,154,236,1) 25%, rgba(114,174,240,1) 38%, rgba(120,184,255,1) 50%, rgba(109,175,246,1) 64%, rgba(93,171,255,1) 75%, rgba(49,148,255,1) 86%, rgba(0,123,255,1) 100%);
-    background-size: 600% 600%;
-    animation: gradientAnimation 30s ease infinite;
-}
-
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+         background: rgb(0,0,0);
 }
 
         #container {
@@ -42,7 +28,7 @@
         h1 {
             font-size: 24px;
             margin-bottom: 20px;
-            color: #333;
+            color: rgba(8,23,40,1);
         }
 
         input[type="text"] {
@@ -57,7 +43,7 @@
         }
 
         input[type="text"]:focus {
-            border-color: #007BFF;
+            border-color: rgba(8,23,40,1);
             outline: none;
         }
 
@@ -66,7 +52,7 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background-color: #007BFF;
+            background-color: #000;
             border: 1px solid #ccc;
             color: white;
             font-size: 16px;
@@ -75,11 +61,11 @@
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #222;
         }
 
         button:disabled {
-            background-color: #cccccc; /* Couleur grise pour le bouton désactivé */
+            background-color: #111; /* Couleur grise pour le bouton désactivé */
             cursor: not-allowed; /* Changer le curseur pour indiquer que c'est désactivé */
         }
 
@@ -89,25 +75,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(200, 200, 255, 0.8));
-            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         #modalContent {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 400px; /* 50% de la largeur de la page */
+            height: 95%; /* 50% de la largeur de la page */
             overflow: hidden; /* Masquer le débordement */
         }
 
         #modalImage {
-            width: 100%; /* Prendre toute la largeur du conteneur */
-            height: auto; /* Garder les proportions de l'image */
+            width: auto; /* Prendre toute la largeur du conteneur */
+            height: 100%; /* Garder les proportions de l'image */
             border-radius: 10px;
         }
 
@@ -118,7 +103,7 @@
         }
 
         #credit a {
-            color: #007BFF; /* Couleur du lien */
+            color: rgba(8,23,40,1); /* Couleur du lien */
             text-decoration: none; /* Pas de soulignement */
         }
 
