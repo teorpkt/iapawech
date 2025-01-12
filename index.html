@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iapawech v2</title>
+    <title>iapawech</title>
     <style>
        body {
     margin: 0;
@@ -86,7 +87,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 95%; /* 50% de la largeur de la page */
+            height: 90vh; /* 50% de la largeur de la page */
             overflow: hidden; /* Masquer le débordement */
         }
 
@@ -131,48 +132,40 @@
 </div>
 
 <script>
-    let intervalId;
-
     document.getElementById('goButton').addEventListener('click', async () => {
         const button = document.getElementById('goButton');
-        const prompt = document.getElementById('textInput').value;
+        const prompt = document.getElementById('textInput').value; // Correction ici
         if (prompt.trim() === "") {
             alert("Veuillez entrer une suggestion d'image.");
             return;
         }
 
-        button.disabled = true;
-        button.textContent = " Chargement...";
+        button.disabled = true; // Désactiver le bouton
+        button.textContent = " Chargement..."; // Changer le texte du bouton
 
         function generateRandomSeed() {
-            return Math.floor(Math.random() * 1e9);
-        }
+    return Math.floor(Math.random() * 1e9);
+  }
+        
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${generateRandomSeed()}&width=1080&height=1080&nologo=true&enhance=false`;
+      
+        // Créer une nouvelle image
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageUrl;
 
-        const generateImage = () => {
-            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${generateRandomSeed()}&width=1080&height=1080&nologo=true&enhance=false`;
-            const modalImage = document.getElementById('modalImage');
-            modalImage.src = imageUrl;
-
-            modalImage.onload = function() {
-                const modal = document.getElementById('modal');
-                modal.style.display = "flex";
-                button.disabled = false;
-                button.textContent = "Générer";
-            };
+        // Attendre que l'image soit complètement chargée avant d'afficher la modale
+        modalImage.onload = function() {
+            const modal = document.getElementById('modal');
+            modal.style.display = "flex"; // Afficher le modal
+            button.disabled = false; // Réactiver le bouton
+            button.textContent = "Générer"; // Restaurer le texte du bouton
         };
 
-        generateImage(); // Generate the first image
-
-        // Set an interval to generate a new image every 5 seconds
-        intervalId = setInterval(() => {
-            generateImage();
-        }, 5000);
-
+        // Fermer le modal si l'utilisateur clique en dehors de l'image
         window.onclick = function(event) {
             const modal = document.getElementById('modal');
             if (event.target === modal) {
                 modal.style.display = "none";
-                clearInterval(intervalId); // Stop generating images when modal is closed
             }
         }
     });
