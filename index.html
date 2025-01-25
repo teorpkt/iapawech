@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iapawech v2</title>
+    <title>iapawech</title>
     <style>
        body {
     margin: 0;
@@ -12,11 +13,12 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-         background: rgb(0,0,0);
+         background: rgb(247,160,101);
+background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50%);
 }
 
         #container {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: #FAF8F6;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -28,14 +30,14 @@
         h1 {
             font-size: 24px;
             margin-bottom: 20px;
-            color: rgba(8,23,40,1);
+            color: #1F1C1C;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #1F1C1C;
             border-radius: 5px;
             font-size: 16px;
             transition: border-color 0.3s;
@@ -43,7 +45,7 @@
         }
 
         input[type="text"]:focus {
-            border-color: rgba(8,23,40,1);
+            border-color: #FD5523;
             outline: none;
         }
 
@@ -52,7 +54,7 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background-color: #000;
+            background-color: #FD5523;
             border: 1px solid #ccc;
             color: white;
             font-size: 16px;
@@ -61,11 +63,11 @@
         }
 
         button:hover {
-            background-color: #222;
+            background-color: #e04b1f;
         }
 
         button:disabled {
-            background-color: #111; /* Couleur grise pour le bouton désactivé */
+            background-color: #cccccc; /* Couleur grise pour le bouton désactivé */
             cursor: not-allowed; /* Changer le curseur pour indiquer que c'est désactivé */
         }
 
@@ -79,20 +81,22 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          
+         background: rgb(247,160,101);
+background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50%);
         }
 
         #modalContent {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 90vh; /* 50% de la largeur de la page */
+            width: 400px; /* 50% de la largeur de la page */
             overflow: hidden; /* Masquer le débordement */
         }
 
         #modalImage {
-            width: auto; /* Prendre toute la largeur du conteneur */
-            height: 100%; /* Garder les proportions de l'image */
+            width: 98%; /* Prendre toute la largeur du conteneur */
+            height: auto; /* Garder les proportions de l'image */
             border-radius: 10px;
         }
 
@@ -103,7 +107,7 @@
         }
 
         #credit a {
-            color: rgba(8,23,40,1); /* Couleur du lien */
+            color: #FD5523; /* Couleur du lien */
             text-decoration: none; /* Pas de soulignement */
         }
 
@@ -131,48 +135,40 @@
 </div>
 
 <script>
-    let intervalId;
-
     document.getElementById('goButton').addEventListener('click', async () => {
         const button = document.getElementById('goButton');
-        const prompt = document.getElementById('textInput').value;
+        const prompt = document.getElementById('textInput').value; // Correction ici
         if (prompt.trim() === "") {
             alert("Veuillez entrer une suggestion d'image.");
             return;
         }
 
-        button.disabled = true;
-        button.textContent = " Chargement...";
+        button.disabled = true; // Désactiver le bouton
+        button.textContent = " Chargement..."; // Changer le texte du bouton
 
         function generateRandomSeed() {
-            return Math.floor(Math.random() * 1e9);
-        }
+    return Math.floor(Math.random() * 1e9);
+  }
+        
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${generateRandomSeed()}&width=1080&height=1080&nologo=true&enhance=false`;
+      
+        // Créer une nouvelle image
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageUrl;
 
-        const generateImage = () => {
-            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${generateRandomSeed()}&width=1080&height=1080&nologo=true&enhance=false`;
-            const modalImage = document.getElementById('modalImage');
-            modalImage.src = imageUrl;
-
-            modalImage.onload = function() {
-                const modal = document.getElementById('modal');
-                modal.style.display = "flex";
-                button.disabled = false;
-                button.textContent = "Générer";
-            };
+        // Attendre que l'image soit complètement chargée avant d'afficher la modale
+        modalImage.onload = function() {
+            const modal = document.getElementById('modal');
+            modal.style.display = "flex"; // Afficher le modal
+            button.disabled = false; // Réactiver le bouton
+            button.textContent = "Générer"; // Restaurer le texte du bouton
         };
 
-        generateImage(); // Generate the first image
-
-        // Set an interval to generate a new image every 5 seconds
-        intervalId = setInterval(() => {
-            generateImage();
-        }, 5000);
-
+        // Fermer le modal si l'utilisateur clique en dehors de l'image
         window.onclick = function(event) {
             const modal = document.getElementById('modal');
             if (event.target === modal) {
                 modal.style.display = "none";
-                clearInterval(intervalId); // Stop generating images when modal is closed
             }
         }
     });
