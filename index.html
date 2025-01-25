@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iapawech</title>
     <style>
-       body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-         background: rgb(247,160,101);
-background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50%);
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: rgb(247,160,101);
+            background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50%);
+        }
 
         #container {
             background-color: #FAF8F6;
@@ -55,7 +54,7 @@ background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50
             border: none;
             border-radius: 5px;
             background-color: #FD5523;
-            border: 1px solid #ccc;
+            border: 1px solid #1F1C1C;
             color: white;
             font-size: 16px;
             cursor: pointer;
@@ -81,13 +80,13 @@ background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50
             justify-content: center;
             align-items: center;
             z-index: 1000;
-          
-         background: rgb(247,160,101);
-background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50%);
+            background: rgb(247,160,101);
+            background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50%);
         }
 
         #modalContent {
             display: flex;
+            flex-direction: column; /* Changer la direction pour empiler les éléments */
             justify-content: center;
             align-items: center;
             width: 400px; /* 50% de la largeur de la page */
@@ -114,6 +113,11 @@ background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50
         #credit a:hover {
             text-decoration: underline; /* Soulignement au survol */
         }
+
+        .modal-button {
+            margin-top: 10px; /* Espacement entre les boutons */
+          width: 98%;
+        }
     </style>
 </head>
 <body>
@@ -131,6 +135,8 @@ background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50
 <div id="modal">
     <div id="modalContent">
         <img id="modalImage" alt="Image générée">
+        <button id="regenerateButton" class="modal-button">Régénérer l'image</button>
+        <button id="closeButton" class="modal-button">Quitter</button>
     </div>
 </div>
 
@@ -147,8 +153,8 @@ background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50
         button.textContent = " Chargement..."; // Changer le texte du bouton
 
         function generateRandomSeed() {
-    return Math.floor(Math.random() * 1e9);
-  }
+            return Math.floor(Math.random() * 1e9);
+        }
         
         const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${generateRandomSeed()}&width=1080&height=1080&nologo=true&enhance=false`;
       
@@ -164,12 +170,16 @@ background: radial-gradient(circle, rgba(247,160,101,1) 0%, rgba(253,85,35,1) 50
             button.textContent = "Générer"; // Restaurer le texte du bouton
         };
 
-        // Fermer le modal si l'utilisateur clique en dehors de l'image
-        window.onclick = function(event) {
+        // Fermer le modal si l'utilisateur clique sur le bouton "Quitter"
+        document.getElementById('closeButton').onclick = function() {
             const modal = document.getElementById('modal');
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
+            modal.style.display = "none";
+        }
+
+        // Régénérer l'image
+        document.getElementById('regenerateButton').onclick = function() {
+            const newImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=turbo&seed=${generateRandomSeed()}&width=1080&height=1080&nologo=true&enhance=false`;
+            modalImage.src = newImageUrl; // Mettre à jour l'URL de l'image
         }
     });
 </script>
