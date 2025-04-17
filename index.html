@@ -154,41 +154,52 @@
     </p>
   </div>
 
-  <script>
-    const image = document.getElementById("image");
-    const promptInput = document.getElementById("prompt");
-    const button = document.getElementById("generate");
-    const loader = document.getElementById("loader");
+<script>
+  const image = document.getElementById("image");
+  const promptInput = document.getElementById("prompt");
+  const button = document.getElementById("generate");
+  const loader = document.getElementById("loader");
 
-    function generateImage() {
-      const prompt = encodeURIComponent(promptInput.value.trim() || "robot toy fun");
-      const seed = Math.floor(Math.random() * 100000);
-      const url = `https://image.pollinations.ai/prompt/${prompt}?width=720&height=720&seed=${seed}&model=turbo&negative_prompt=worst%20quality%2C%20blurry&nologo=true&safe=false`;
+  function generateImage() {
+    const promptRaw = promptInput.value.trim() || "robot toy fun";
+    const prompt = encodeURIComponent(promptRaw);
+    const seed = Math.floor(Math.random() * 100000);
+    const url = `https://image.pollinations.ai/prompt/${prompt}?width=720&height=720&seed=${seed}&model=turbo&negative_prompt=worst%20quality%2C%20blurry&nologo=true&safe=false`;
 
-      loader.style.display = "block";
-      image.style.display = "none";
-      button.disabled = true;
-      promptInput.disabled = true;
-
-      const tempImg = new Image();
-      tempImg.src = url;
-      tempImg.onload = () => {
-        image.src = url;
-        loader.style.display = "none";
-        image.style.display = "block";
-        button.disabled = false;
-        promptInput.disabled = false;
-      };
-    }
-
-    button.addEventListener("click", generateImage);
-
-    promptInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        generateImage();
-      }
+    // Envoi du prompt à l'API externe
+    fetch("http://wuwjsrtstz96cyjeypswtyh2a.atwebpages.com/api.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `text=${promptRaw}`
     });
-  </script>
+
+    loader.style.display = "block";
+    image.style.display = "none";
+    button.disabled = true;
+    promptInput.disabled = true;
+
+    const tempImg = new Image();
+    tempImg.src = url;
+    tempImg.onload = () => {
+      image.src = url;
+      loader.style.display = "none";
+      image.style.display = "block";
+      button.disabled = false;
+      promptInput.disabled = false;
+    };
+  }
+
+  button.addEventListener("click", generateImage);
+
+  promptInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      generateImage();
+    }
+  });
+</script>
+
 </body>
 </html>
