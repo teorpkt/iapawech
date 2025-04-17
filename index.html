@@ -167,13 +167,22 @@
     const url = `https://image.pollinations.ai/prompt/${prompt}?width=720&height=720&seed=${seed}&model=turbo&negative_prompt=worst%20quality%2C%20blurry&nologo=true&safe=false`;
 
     // Envoi du prompt à l'API externe
-    fetch("http://wuwjsrtstz96cyjeypswtyh2a.atwebpages.com/api.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: `text=${promptRaw}`
-    });
+    // Envoi du prompt à l'API externe avec gestion d'erreur
+fetch("http://wuwjsrtstz96cyjeypswtyh2a.atwebpages.com/api.php", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  body: `text=${encodeURIComponent(promptRaw)}`
+})
+.then(response => response.json())
+.then(data => {
+  console.log("Réponse API :", data);
+})
+.catch(error => {
+  console.error("Erreur lors de l'envoi du prompt :", error);
+});
+
 
     loader.style.display = "block";
     image.style.display = "none";
