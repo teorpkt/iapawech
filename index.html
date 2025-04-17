@@ -1,214 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAPAWECH</title>
+  <title>IAPAWECH - Plein écran</title>
   <style>
-    :root {
-      font-size: 16px;
-    }
-
-    * {
-      box-sizing: border-box;
+    html, body {
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      font-family: sans-serif;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      touch-action: manipulation;
-      padding: 1rem;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 25rem;
-      text-align: center;
-      background: #fff;
-      border-radius: 1rem;
-      padding: 1.25rem;
-      box-shadow: 0 0.625rem 1.5625rem rgba(0, 0, 0, 0.1);
-      border: 0.0625rem solid #e0e0e0;
-    }
-
-    .image-wrapper {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: 0.75rem;
-      overflow: hidden;
-      margin-bottom: 0.625rem;
-      background: url('https://i.gifer.com/Vpo.gif') center/cover no-repeat;
-      border: 0.0625rem solid #ddd;
-    }
-
-    .image-wrapper img {
-      width: 100%;
       height: 100%;
-      object-fit: cover;
-      display: block;
+      overflow: hidden;
     }
 
-    #loader {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 3rem;
-      height: 3rem;
-      display: none;
-      z-index: 2;
-    }
-
-    input,
-    button {
-      outline: none;
+    iframe {
       border: none;
-      appearance: none;
-      width: 100%;
-      font-size: 0.875rem;
-      border-radius: 0.5rem;
-      padding: 0.75rem;
-      transition: border-color 0.2s, background-color 0.2s;
-    }
-
-    #prompt {
-      border: 0.0625rem solid #ccc;
-      background-color: #fff;
-      margin-bottom: 0.3125rem;
-    }
-
-    #prompt:focus {
-      border-color: #999;
-    }
-
-    #generate {
-      background-color: #000;
-      color: #fff;
-      cursor: pointer;
-      border: 0.0625rem solid #000;
-    }
-
-    #generate:hover {
-      background-color: #333;
-      border-color: #333;
-    }
-
-    #generate:active {
-      background-color: #000;
-      border-color: #000;
-    }
-
-    #generate:disabled,
-    #prompt:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .credit {
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
-      color: #888;
-    }
-
-    .credit a {
-      color: #888;
-      text-decoration: underline;
-    }
-
-    @media (min-width: 768px) {
-      :root {
-        font-size: 17px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      :root {
-        font-size: 18px;
-      }
+      width: 100vw;
+      height: 100vh;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="image-wrapper">
-      <img id="image" src="https://i.gifer.com/Vpo.gif" alt="Image">
-      <img id="loader" src="https://i.gifer.com/XVo6.gif" alt="Chargement...">
-    </div>
-
-    <input type="text" id="prompt" maxlength="100" placeholder="Décris ton image..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Prompt pour générer une image">
-
-    <button id="generate">Générer</button>
-
-    <p class="credit">
-      IAPAWECH — un projet de
-      <a href="https://instagram.com/teorpkt" target="_blank">@teorpkt</a>
-    </p>
-  </div>
-
-<script>
-  const image = document.getElementById("image");
-  const promptInput = document.getElementById("prompt");
-  const button = document.getElementById("generate");
-  const loader = document.getElementById("loader");
-
-  function generateImage() {
-    const promptRaw = promptInput.value.trim() || "robot toy fun";
-    const prompt = encodeURIComponent(promptRaw);
-    const seed = Math.floor(Math.random() * 100000);
-    const url = `https://image.pollinations.ai/prompt/${prompt}?width=720&height=720&seed=${seed}&model=turbo&negative_prompt=worst%20quality%2C%20blurry&nologo=true&safe=false`;
-
-    // Envoi du prompt à l'API externe
-    // Envoi du prompt à l'API externe avec gestion d'erreur
-fetch("http://wuwjsrtstz96cyjeypswtyh2a.atwebpages.com/api.php", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  body: `text=${encodeURIComponent(promptRaw)}`
-})
-.then(response => response.json())
-.then(data => {
-  console.log("Réponse API :", data);
-})
-.catch(error => {
-  console.error("Erreur lors de l'envoi du prompt :", error);
-});
-
-
-    loader.style.display = "block";
-    image.style.display = "none";
-    button.disabled = true;
-    promptInput.disabled = true;
-
-    const tempImg = new Image();
-    tempImg.src = url;
-    tempImg.onload = () => {
-      image.src = url;
-      loader.style.display = "none";
-      image.style.display = "block";
-      button.disabled = false;
-      promptInput.disabled = false;
-    };
-  }
-
-  button.addEventListener("click", generateImage);
-
-  promptInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      generateImage();
-    }
-  });
-</script>
-
+  <iframe src="http://iapawech.atwebpages.com/" allowfullscreen></iframe>
 </body>
 </html>
